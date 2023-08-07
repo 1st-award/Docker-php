@@ -1,0 +1,27 @@
+services:
+  www:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - "./app:/var/www/html"
+    ports:
+      - 80:80
+
+  maria-db:
+    image: mariadb:latest
+    volumes:
+      - "./db:/var/lib/mysql"
+    environment:
+      - MYSQL_DATABASE=php_docker
+      - MYSQL_USER=user
+      - MYSQL_PASSWORD=loveis
+      - MYSQL_ALLOW_EMPTY_PASSWORD=1
+  
+  phpmyadmin:
+    image: phpmyadmin
+    ports:
+      - 8080:80
+    environment:
+      - PMA_HOST=maria-db # define address/host name of the MySQL server
+      - PMA_PORT=3306     # define port of the MySQL server
